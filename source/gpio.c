@@ -131,6 +131,12 @@ void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high)
 #endif
 }
 
+void GPIO_toggle_pin(uint8_t port, uint8_t pin)
+{
+    bool val = GPIO_read_pin(port, pin);
+    GPIO_write_pin(port, pin, !val);
+}
+
 void GPIO_config_pin(uint8_t port, uint8_t pin, uint8_t mode)
 {
 #if GPIO_DYNAMIC_CHECK == 1U

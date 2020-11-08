@@ -55,6 +55,7 @@
 
 bool GPIO_read_pin(uint8_t port, uint8_t pin);
 void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high);
+void GPIO_toggle_pin(uint8_t port, uint8_t pin);
 void GPIO_config_pin(uint8_t port, uint8_t pin, uint8_t mode);
 void GPIO_configure(bool is_global_pullup);
 
