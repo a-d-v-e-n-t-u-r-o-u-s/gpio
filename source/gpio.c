@@ -98,7 +98,6 @@ bool GPIO_read_pin(uint8_t port, uint8_t pin)
 #if GPIO_DYNAMIC_CHECK == 1U
     error:
         DEBUG_halt(debug_prefix, line);
-        return false;
 #endif
 }
 
