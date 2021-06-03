@@ -20,7 +20,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+#define DEBUG_APP_ID    "GPIO"
+#define DEBUG_ENABLED   DEBUG_GPIO_ENABLED
+#define DEBUG_LEVEL     DEBUG_GPIO_LEVEL
 #include "gpio.h"
 #include <stddef.h>
 #include <stdbool.h>
