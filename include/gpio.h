@@ -36,7 +36,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define GPIO_DYNAMIC_CHECK 1U
+#define GPIO_DYNAMIC_CHECK 0U
 
 #define GPIO_PIN_SHIFT          (2U)
 #define GPIO_MODE_SHIFT         (5U)
