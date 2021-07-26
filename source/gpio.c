@@ -97,7 +97,7 @@ bool GPIO_read_pin(uint8_t id)
     const uint8_t port = pgm_read_byte(&gpio_config[id].port);
     const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
-    return ((PIN(port) & ( 1 << pin)) != 0);
+    return ((PIN(port) & ( 1u << pin)) != 0);
 
 #if GPIO_DYNAMIC_CHECK == 1U
     error:
@@ -122,11 +122,11 @@ void GPIO_write_pin(uint8_t id, bool is_high)
 
     if(is_high)
     {
-        PORT(port) |= (1 << pin);
+        PORT(port) |= (1u << pin);
     }
     else
     {
-        PORT(port)  &= ~(1 << pin);
+        PORT(port)  &= ~(1u << pin);
     }
 
     return;
@@ -163,18 +163,18 @@ void GPIO_config_pin(uint8_t id, uint8_t mode)
     const uint8_t port = pgm_read_byte(&gpio_config[id].port);
     const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
-    DDR(port) &= ~(1 << pin);
-    PORT(port)  &= ~(1 << pin);
+    DDR(port) &= ~(1u << pin);
+    PORT(port)  &= ~(1u << pin);
 
     switch(mode)
     {
         case GPIO_OUTPUT_PUSH_PULL:
-            DDR(port) |= (1 << pin);
+            DDR(port) |= (1u << pin);
             break;
         case GPIO_INPUT_FLOATING:
             break;
         case GPIO_INPUT_PULL_UP:
-            PORT(port) |= (1 << pin);
+            PORT(port) |= (1u << pin);
             break;
     }
 
@@ -190,11 +190,11 @@ void GPIO_configure(bool is_global_pullup)
 {
     if(is_global_pullup)
     {
-        SFIOR |= (1 << PUD);
+        SFIOR |= (1u << PUD);
     }
     else
     {
-        SFIOR &= ~(1 << PUD);
+        SFIOR &= ~(1u << PUD);
     }
 
     for(uint8_t i = 0; i < sizeof(gpio_config)/sizeof(gpio_config[0]); i++)
