@@ -176,6 +176,9 @@ void GPIO_config_pin(uint8_t id, uint8_t mode)
         case GPIO_INPUT_PULL_UP:
             PORT(port) |= (1u << pin);
             break;
+        default:
+            ASSERT(false);
+            break;
     }
 
     return;
