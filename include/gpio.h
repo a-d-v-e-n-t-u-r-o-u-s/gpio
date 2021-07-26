@@ -53,10 +53,18 @@
 #define GPIO_INPUT_FLOATING     (1U)
 #define GPIO_INPUT_PULL_UP      (2U)
 
-bool GPIO_read_pin(uint8_t port, uint8_t pin);
-void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high);
-void GPIO_toggle_pin(uint8_t port, uint8_t pin);
-void GPIO_config_pin(uint8_t port, uint8_t pin, uint8_t mode);
+typedef struct
+{
+    uint8_t port;
+    uint8_t pin;
+    uint8_t mode;
+    bool init_value;
+} GPIO_config_t;
+
+bool GPIO_read_pin(uint8_t id);
+void GPIO_write_pin(uint8_t id, bool is_high);
+void GPIO_toggle_pin(uint8_t id);
+void GPIO_config_pin(uint8_t id, uint8_t mode);
 void GPIO_configure(bool is_global_pullup);
 
 /*@}*/

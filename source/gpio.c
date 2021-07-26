@@ -29,7 +29,7 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "debug.h"
-
+#include "hardware.h"
 
 #define REG_BY_PORT(base_reg, port_no, port_offset)  \
     *((volatile uint8_t *)((volatile uint8_t *)&base_reg + port_no * port_offset))
@@ -40,7 +40,7 @@
 
 #if GPIO_DYNAMIC_CHECK == 1U
 
-//static const char debug_prefix[] PROGMEM = "GPIO";
+/*! \todo probably should be in PROGMEM */
 static const char debug_prefix[] = "GPIO";
 
 static inline bool is_port_pin_valid(uint8_t port, uint8_t pin)
@@ -84,7 +84,7 @@ static inline bool is_mode_valid(uint8_t mode)
 }
 #endif
 
-bool GPIO_read_pin(uint8_t port, uint8_t pin)
+bool GPIO_read_pin(uint8_t id)
 {
 #if GPIO_DYNAMIC_CHECK == 1U
     uint16_t line;
@@ -94,6 +94,8 @@ bool GPIO_read_pin(uint8_t port, uint8_t pin)
         goto error;
     }
 #endif
+    const uint8_t port = pgm_read_byte(&gpio_config[id].port);
+    const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
     return ((PIN(port) & ( 1 << pin)) != 0);
 
@@ -103,7 +105,7 @@ bool GPIO_read_pin(uint8_t port, uint8_t pin)
 #endif
 }
 
-void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high)
+void GPIO_write_pin(uint8_t id, bool is_high)
 {
 #if GPIO_DYNAMIC_CHECK == 1U
     uint16_t line;
@@ -114,6 +116,9 @@ void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high)
         goto error;
     }
 #endif
+
+    const uint8_t port = pgm_read_byte(&gpio_config[id].port);
+    const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
     if(is_high)
     {
@@ -132,13 +137,13 @@ void GPIO_write_pin(uint8_t port, uint8_t pin, bool is_high)
 #endif
 }
 
-void GPIO_toggle_pin(uint8_t port, uint8_t pin)
+void GPIO_toggle_pin(uint8_t id)
 {
-    bool val = GPIO_read_pin(port, pin);
-    GPIO_write_pin(port, pin, !val);
+    bool val = GPIO_read_pin(id);
+    GPIO_write_pin(id, !val);
 }
 
-void GPIO_config_pin(uint8_t port, uint8_t pin, uint8_t mode)
+void GPIO_config_pin(uint8_t id, uint8_t mode)
 {
 #if GPIO_DYNAMIC_CHECK == 1U
     uint16_t line;
@@ -155,6 +160,8 @@ void GPIO_config_pin(uint8_t port, uint8_t pin, uint8_t mode)
         goto error;
     }
 #endif
+    const uint8_t port = pgm_read_byte(&gpio_config[id].port);
+    const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
     DDR(port) &= ~(1 << pin);
     PORT(port)  &= ~(1 << pin);
@@ -188,5 +195,11 @@ void GPIO_configure(bool is_global_pullup)
     else
     {
         SFIOR &= ~(1 << PUD);
+    }
+
+    for(uint8_t i = 0; i < sizeof(gpio_config)/sizeof(gpio_config[0]); i++)
+    {
+        const uint8_t mode = pgm_read_byte(&gpio_config[i].mode);
+        GPIO_config_pin(i, mode);
     }
 }
