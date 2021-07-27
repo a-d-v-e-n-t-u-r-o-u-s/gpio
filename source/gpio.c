@@ -200,7 +200,7 @@ void GPIO_configure(bool is_global_pullup)
         SFIOR &= ~(1u << PUD);
     }
 
-    for(uint8_t i = 0; i < sizeof(gpio_config)/sizeof(gpio_config[0]); i++)
+    for(uint8_t i = 0; i < (sizeof(gpio_config)/sizeof(gpio_config[0])); i++)
     {
         const uint8_t mode = pgm_read_byte(&gpio_config[i].mode);
         GPIO_config_pin(i, mode);
