@@ -49,22 +49,81 @@
 #define GPIO_PORTC              (1U)
 #define GPIO_PORTB              (2U)
 
+/*!
+ *
+ * \addtogroup gpio_modes
+ * \ingroup gpio
+ * \brief GPIO modes
+ */
+/*@{*/
+
+/*! \brief Gpio output mode as push-pull  */
 #define GPIO_OUTPUT_PUSH_PULL   (0U)
+/*! \brief Gpio output mode as input floating  */
 #define GPIO_INPUT_FLOATING     (1U)
+/*! \brief Gpio output mode as input with pull up resistor  */
 #define GPIO_INPUT_PULL_UP      (2U)
 
+/*@}*/
+
+/*!
+ * \brief Gpio configuration structure
+ */
 typedef struct
 {
-    uint8_t port;
-    uint8_t pin;
-    uint8_t mode;
-    bool init_value;
+    uint8_t port; /*!< Gpio port*/
+    uint8_t pin; /*!< Gpio pin */
+    uint8_t mode; /*!< Gpio mode */
+    bool init_value; /*!< Gpio initial value, relavant for \ref GPIO_OUTPUT_PUSH_PULL */
 } GPIO_config_t;
 
+/*! TODO(DB) document how below function behaves in case gpio is in output mode */
+/*!
+ * \brief Gets state of gpio in input mode.
+ *
+ * \param id gpio identification from global config structure
+ *
+ * \retval true high state
+ * \retval false low state
+ */
 bool GPIO_read_pin(uint8_t id);
+
+/*! TODO(DB) document how below function behaves in case gpio is in input mode */
+/*!
+ * \brief Sets gpio state in output mode.
+ *
+ * \param id gpio identification from global config structure
+ * \param is_high state to be set, true=high
+ *
+ */
 void GPIO_write_pin(uint8_t id, bool is_high);
+
+/*!
+ * \brief Toggles gpio state in output mode.
+ *
+ * First \ref GPIO_read_pin is invoked and then \ref GPIO_write_pin
+ * with inverted result of \ref GPIO_read_pin
+ *
+ * \param id gpio identification from global config structure
+ *
+ */
 void GPIO_toggle_pin(uint8_t id);
+
+/*!
+ * \brief Configures gpio in given mode.
+ *
+ * \param id gpio identification from global config structure
+ * \param mode gpio mode \ref gpio_modes
+ *
+ */
 void GPIO_config_pin(uint8_t id, uint8_t mode);
+
+/*!
+ * \brief Configures gpio driver
+ *
+ * \param is_global_pullup TODO(DB) documents this later
+ *
+ */
 void GPIO_configure(bool is_global_pullup);
 
 /*@}*/
