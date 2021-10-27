@@ -38,85 +38,16 @@
 #define PORT(port_no)   REG_BY_PORT(PORTD, port_no, 0x03)
 #define PIN(port_no)    REG_BY_PORT(PIND, port_no, 0x03)
 
-#if GPIO_DYNAMIC_CHECK == 1U
-
-/*! \todo probably should be in PROGMEM */
-static const char debug_prefix[] = "GPIO";
-
-static inline bool is_port_pin_valid(uint8_t port, uint8_t pin)
-{
-    switch(port)
-    {
-        case GPIO_PORTB:
-            /* no break */
-        case GPIO_PORTD:
-            if(pin <= 7U)
-            {
-                return true;
-            }
-            break;
-        case GPIO_PORTC:
-            if(pin <= 6U)
-            {
-                return true;
-            }
-            break;
-        default:
-            break;
-    }
-
-    return false;
-}
-
-static inline bool is_mode_valid(uint8_t mode)
-{
-    switch(mode)
-    {
-        case GPIO_OUTPUT_PUSH_PULL:
-            /* no break */
-        case GPIO_INPUT_FLOATING:
-            /* no break */
-        case GPIO_INPUT_PULL_UP:
-            return true;
-        default:
-            return false;
-    }
-}
-#endif
-
 bool GPIO_read_pin(uint8_t id)
 {
-#if GPIO_DYNAMIC_CHECK == 1U
-    uint16_t line;
-    if(!is_port_pin_valid(port, pin))
-    {
-        line = __LINE__;
-        goto error;
-    }
-#endif
     const uint8_t port = pgm_read_byte(&gpio_config[id].port);
     const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
     return ((PIN(port) & ( 1u << pin)) != 0);
-
-#if GPIO_DYNAMIC_CHECK == 1U
-    error:
-        DEBUG_halt(debug_prefix, line);
-#endif
 }
 
 void GPIO_write_pin(uint8_t id, bool is_high)
 {
-#if GPIO_DYNAMIC_CHECK == 1U
-    uint16_t line;
-
-    if(!is_port_pin_valid(port, pin))
-    {
-        line = __LINE__;
-        goto error;
-    }
-#endif
-
     const uint8_t port = pgm_read_byte(&gpio_config[id].port);
     const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
@@ -128,13 +59,6 @@ void GPIO_write_pin(uint8_t id, bool is_high)
     {
         PORT(port)  &= ~(1u << pin);
     }
-
-    return;
-
-#if GPIO_DYNAMIC_CHECK == 1U
-    error:
-        DEBUG_halt(debug_prefix, line);
-#endif
 }
 
 void GPIO_toggle_pin(uint8_t id)
@@ -145,21 +69,6 @@ void GPIO_toggle_pin(uint8_t id)
 
 void GPIO_config_pin(uint8_t id, uint8_t mode)
 {
-#if GPIO_DYNAMIC_CHECK == 1U
-    uint16_t line;
-
-    if(!is_mode_valid(mode))
-    {
-        line = __LINE__;
-        goto error;
-    }
-
-    if(!is_port_pin_valid(port, pin))
-    {
-        line = __LINE__;
-        goto error;
-    }
-#endif
     const uint8_t port = pgm_read_byte(&gpio_config[id].port);
     const uint8_t pin = pgm_read_byte(&gpio_config[id].pin);
 
@@ -180,13 +89,6 @@ void GPIO_config_pin(uint8_t id, uint8_t mode)
             ASSERT(false);
             break;
     }
-
-    return;
-
-#if GPIO_DYNAMIC_CHECK == 1U
-    error:
-        DEBUG_halt(debug_prefix, line);
-#endif
 }
 
 void GPIO_configure(bool is_global_pullup)

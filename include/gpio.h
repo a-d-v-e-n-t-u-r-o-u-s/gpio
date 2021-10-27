@@ -36,18 +36,20 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define GPIO_DYNAMIC_CHECK 0U
-
-#define GPIO_PIN_SHIFT          (2U)
-#define GPIO_MODE_SHIFT         (5U)
-
-#define GPIO_PORT_MASK          (0x03U)
-#define GPIO_PIN_MASK           (0x1CU)
-#define GPIO_MODE_MASK          (0x60U)
-
+/*!
+ *
+ * \addtogroup gpio_ports
+ * \ingroup gpio
+ * \brief GPIO ports ids
+ */
+/*@{*/
+/*! \brief Gpio port D id  */
 #define GPIO_PORTD              (0U)
+/*! \brief Gpio port C id  */
 #define GPIO_PORTC              (1U)
+/*! \brief Gpio port B id  */
 #define GPIO_PORTB              (2U)
+/*@}*/
 
 /*!
  *
@@ -77,7 +79,7 @@ typedef struct
     bool init_value; /*!< Gpio initial value, relavant for \ref GPIO_OUTPUT_PUSH_PULL */
 } GPIO_config_t;
 
-/*! TODO(DB) document how below function behaves in case gpio is in output mode */
+/*! \todo document how below function behaves in case gpio is in output mode */
 /*!
  * \brief Gets state of gpio in input mode.
  *
