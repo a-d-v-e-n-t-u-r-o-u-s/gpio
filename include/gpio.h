@@ -79,7 +79,7 @@ typedef struct
     bool init_value; /*!< Gpio initial value, relavant for \ref GPIO_OUTPUT_PUSH_PULL */
 } GPIO_config_t;
 
-/*! \todo document how below function behaves in case gpio is in output mode */
+/*! \todo (DB) document how below function behaves in case gpio is in output mode */
 /*!
  * \brief Gets state of gpio in input mode.
  *
@@ -123,7 +123,7 @@ void GPIO_config_pin(uint8_t id, uint8_t mode);
 /*!
  * \brief Configures gpio driver
  *
- * \param is_global_pullup \todo documents this later
+ * \param is_global_pullup \todo (DB) documents this later
  *
  */
 void GPIO_configure(bool is_global_pullup);
