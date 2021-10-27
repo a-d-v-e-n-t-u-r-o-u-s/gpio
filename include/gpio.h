@@ -90,7 +90,7 @@ typedef struct
  */
 bool GPIO_read_pin(uint8_t id);
 
-/*! TODO(DB) document how below function behaves in case gpio is in input mode */
+/*! \todo (DB) document how below function behaves in case gpio is in input mode */
 /*!
  * \brief Sets gpio state in output mode.
  *
@@ -123,7 +123,7 @@ void GPIO_config_pin(uint8_t id, uint8_t mode);
 /*!
  * \brief Configures gpio driver
  *
- * \param is_global_pullup TODO(DB) documents this later
+ * \param is_global_pullup \todo documents this later
  *
  */
 void GPIO_configure(bool is_global_pullup);
