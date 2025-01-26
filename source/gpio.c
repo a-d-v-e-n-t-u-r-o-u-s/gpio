@@ -32,11 +32,11 @@
 #include "hardware.h"
 
 #define REG_BY_PORT(base_reg, port_no, port_offset)  \
-    *((volatile uint8_t *)((volatile uint8_t *)&base_reg + port_no * port_offset))
+    *((volatile uint8_t *)((volatile uint8_t *)&(base_reg) + (port_no) * (port_offset)))
 
-#define DDR(port_no)    REG_BY_PORT(DDRD, port_no, 0x03)
-#define PORT(port_no)   REG_BY_PORT(PORTD, port_no, 0x03)
-#define PIN(port_no)    REG_BY_PORT(PIND, port_no, 0x03)
+#define DDR(port_no)    REG_BY_PORT(DDRD, (port_no), 0x03)
+#define PORT(port_no)   REG_BY_PORT(PORTD, (port_no), 0x03)
+#define PIN(port_no)    REG_BY_PORT(PIND, (port_no), 0x03)
 
 bool GPIO_read_pin(uint8_t id)
 {
