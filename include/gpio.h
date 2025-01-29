@@ -69,14 +69,25 @@
 /*@}*/
 
 /*!
+ * \struct GPIO_config_t
+ *
  * \brief Gpio configuration structure
+ *
+ * \var GPIO_config_t::port
+ *      Gpio port
+ * \var GPIO_config_t::pin
+ *      Gpio pin
+ * \var GPIO_config_t::mode
+ *      Gpio mode
+ * \var GPIO_config_t::init_value
+ *      Gpio initial value
  */
 typedef struct
 {
-    uint8_t port; /*!< Gpio port*/
-    uint8_t pin; /*!< Gpio pin */
-    uint8_t mode; /*!< Gpio mode */
-    bool init_value; /*!< Gpio initial value, relavant for \ref GPIO_OUTPUT_PUSH_PULL */
+    uint8_t port;
+    uint8_t pin;
+    uint8_t mode;
+    bool init_value;
 } GPIO_config_t;
 
 /*! \todo (DB) document how below function behaves in case gpio is in output mode */

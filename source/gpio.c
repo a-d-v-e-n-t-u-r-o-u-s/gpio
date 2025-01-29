@@ -87,7 +87,6 @@ void GPIO_config_pin(uint8_t id, uint8_t mode)
             break;
         default:
             ASSERT(false);
-            break;
     }
 }
 
